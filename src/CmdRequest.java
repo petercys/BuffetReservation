@@ -3,8 +3,10 @@ public class CmdRequest extends RecordedCommand {
 
     @Override
     public void execute(String[] cmdParts) {
+        int totalPersons = Integer.parseInt(cmdParts[3]);
+
         reservation = BookingOffice.getInstance().addReservation(cmdParts[1], cmdParts[2],
-                Integer.parseInt(cmdParts[3]), cmdParts[4]);
+                totalPersons, cmdParts[4]);
 
         addUndoCommand(this);
         clearRedoList();

@@ -8,7 +8,6 @@ public class Day implements Cloneable {
         set(sDay);
     }
 
-    // Constructor
     public Day(int y, int m, int d) {
         this.year = y;
         this.month = m;
@@ -24,14 +23,14 @@ public class Day implements Cloneable {
         // P.S.: It would be better if we use DateFormat classes in the Java SDK to parse the date string
 
         String[] sDayParts = sDay.split("-");
-        this.day = Integer.parseInt(sDayParts[0]); //Apply Integer.parseInt for sDayParts[0];
+        this.day = Integer.parseInt(sDayParts[0]);
         this.year = Integer.parseInt(sDayParts[2]);
         this.month = MonthNames.indexOf(sDayParts[1]) / 3 + 1;
     }
 
     @Override
     public String toString() {
-        return day + "-" + MonthNames.substring((month - 1) * 3, month * 3) + "-" + year; // (month-1)*3,(month)*3
+        return day + "-" + MonthNames.substring((month - 1) * 3, month * 3) + "-" + year;
     }
 
     @Override

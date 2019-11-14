@@ -20,7 +20,6 @@ public class Reservation implements Comparable<Reservation> {
 
     @Override
     public String toString() {
-        //Learn: "-" means left-aligned
         return String.format("%-13s%-11s%-14s%-14s%5d", guestName, phoneNumber, dateRequest,
                 dateDine, totPersons);
     }

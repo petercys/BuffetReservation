@@ -15,7 +15,6 @@ public class Main {
         // (eg. "startNewDay 03-Jan-2018"); and it cannot be undone
         String firstCmdLine = inFile.nextLine();
 
-        //Split by vertical bar character '|' (Regular expression: "\|")
         String[] firstCmdLineParts = firstCmdLine.split("\\|");
         System.out.println("\n> " + firstCmdLine);
 
@@ -50,6 +49,7 @@ public class Main {
                     RecordedCommand.redoOneCommand();
                     break;
                 default:
+                    // Do nothing
                     break;
             }
         }

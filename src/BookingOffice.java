@@ -41,18 +41,21 @@ public class BookingOffice {
     public Reservation addReservation(String guestName, String phoneNumber, int totPersons,
                                       String sDateDine) {
         Reservation r = new Reservation(guestName, phoneNumber, totPersons, sDateDine);
+
         allReservations.add(r);
-        Collections.sort(allReservations); // allReservations
-        return r; //Why return?  Ans: You'll see that it is useful in CmdRequest.java in Q2.
+        Collections.sort(allReservations);
+
+        return r;
     }
 
     /**
      * List all reservations
      */
     public void listReservations() {
-        System.out.println(Reservation.getListingHeader()); // Reservation
+        System.out.println(Reservation.getListingHeader());
+
         for (Reservation r : allReservations)
-            System.out.println(r.toString()); // r or r.toString()
+            System.out.println(r.toString());
     }
 
     /**
