@@ -55,6 +55,12 @@ public class Reservation implements Comparable<Reservation> {
 
     @Override
     public int compareTo(Reservation o) {
-        return this.guestName.compareTo(o.guestName);
+        int c = this.guestName.compareTo(o.guestName);
+        if (c == 0)
+            c = this.phoneNumber.compareTo(o.phoneNumber);
+        if (c == 0)
+            c = this.dateDine.compareTo(o.dateDine);
+
+        return c;
     }
 }

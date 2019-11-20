@@ -51,6 +51,17 @@ public class Day implements Cloneable {
     }
 
     @Override
+    public int compareTo(Day o) {
+        int c = Integer.compare(this.year, o.year);
+        if (c == 0)
+            c = Integer.compare(this.month, o.month);
+        if (c == 0)
+            c = Integer.compare(this.day, o.day);
+
+        return c;
+    }
+
+    @Override
     public Day clone() {
         Day copy = null;
         try {
