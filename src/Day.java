@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class Day implements Cloneable {
+public class Day implements Cloneable, Comparable<Day> {
     private static final String MonthNames = "JanFebMarAprMayJunJulAugSepOctNovDec";
     private int year;
     private int month;
@@ -28,6 +28,22 @@ public class Day implements Cloneable {
         this.day = Integer.parseInt(sDayParts[0]);
         this.year = Integer.parseInt(sDayParts[2]);
         this.month = MonthNames.indexOf(sDayParts[1]) / 3 + 1;
+    }
+
+    public boolean hasPassed(Day thatDay) {
+        if (this.year < thatDay.year) {
+            return true;
+        } else if (this.year == thatDay.year) {
+            if (this.month < thatDay.month) {
+                return true;
+            } else if (this.month == thatDay.month) {
+                return this.day < thatDay.day;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     @Override
