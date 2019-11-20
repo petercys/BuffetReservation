@@ -1,13 +1,16 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class BookingOffice {
     private static volatile BookingOffice mInstance;
     private List<Reservation> allReservations;
+    private HashMap<String, Integer> ticketCodeMap;
 
     private BookingOffice() {
         allReservations = new ArrayList<>();
+        ticketCodeMap = new HashMap<>();
     }
 
     /**
@@ -42,10 +45,47 @@ public class BookingOffice {
                                       String sDateDine) {
         Reservation r = new Reservation(guestName, phoneNumber, totPersons, sDateDine);
 
+        int ticketCode = 1;
+        if (ticketCodeMap.containsKey(sDateDine))
+            ticketCode = ticketCodeMap.get(sDateDine) + 1;
+
+        r.setTicketCode(ticketCode);
+
+        return addReservation(r);
+    }
+
+    /**
+     * Add a reservation
+     *
+     * @param r reservation to be added
+     */
+    public Reservation addReservation(Reservation r) {
         allReservations.add(r);
+        ticketCodeMap.put(r.getDateDine().toString(), r.getTicketCode());
+
         Collections.sort(allReservations);
 
         return r;
+    }
+
+    /**
+     * Remove a reservation
+     *
+     * @param r reservation to be removed
+     */
+    public void removeReservation(Reservation r) {
+        allReservations.remove(r);
+
+        String sDateDine = r.getDateDine().toString();
+        int currentTicketCode = -1;
+
+        if (ticketCodeMap.containsKey(sDateDine))
+            currentTicketCode = ticketCodeMap.get(sDateDine);
+
+        if (currentTicketCode <= 1)
+            ticketCodeMap.remove(sDateDine);
+        else
+            ticketCodeMap.put(sDateDine, currentTicketCode - 1);
     }
 
     /**
@@ -56,24 +96,5 @@ public class BookingOffice {
 
         for (Reservation r : allReservations)
             System.out.println(r.toString());
-    }
-
-    /**
-     * Remove a reservation
-     *
-     * @param r reservation to be removed
-     */
-    public void removeReservation(Reservation r) {
-        allReservations.remove(r);
-    }
-
-    /**
-     * Add a reservation
-     *
-     * @param r reservation to be added
-     */
-    public void addReservation(Reservation r) {
-        allReservations.add(r);
-        Collections.sort(allReservations);
     }
 }

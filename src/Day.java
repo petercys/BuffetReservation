@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Day implements Cloneable {
     private static final String MonthNames = "JanFebMarAprMayJunJulAugSepOctNovDec";
     private int year;
@@ -31,6 +33,21 @@ public class Day implements Cloneable {
     @Override
     public String toString() {
         return day + "-" + MonthNames.substring((month - 1) * 3, month * 3) + "-" + year;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Day day1 = (Day) o;
+        return year == day1.year &&
+                month == day1.month &&
+                day == day1.day;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(year, month, day);
     }
 
     @Override

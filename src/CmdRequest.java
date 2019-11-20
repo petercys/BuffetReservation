@@ -11,7 +11,9 @@ public class CmdRequest extends RecordedCommand {
         addUndoCommand(this);
         clearRedoList();
 
-        System.out.println("Done.");
+        System.out.println(String.format("Done. Ticket code for %s: %d\n",
+                cmdParts[4],
+                reservation.getTicketCode()));
     }
 
     @Override
