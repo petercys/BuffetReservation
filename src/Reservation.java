@@ -5,6 +5,7 @@ public class Reservation implements Comparable<Reservation> {
     private Day dateDine;
     private Day dateRequest;
     private int ticketCode;
+    private RState status;
 
     public Reservation(String guestName, String phoneNumber, int totPersons, String sDateDine) {
         this(guestName, phoneNumber, totPersons, new Day(sDateDine));
@@ -17,14 +18,11 @@ public class Reservation implements Comparable<Reservation> {
         this.dateDine = dateDine;
         this.dateRequest = SystemDate.getInstance().clone();
         this.ticketCode = -1;
+        this.status = new RStatePending();
     }
 
     public Day getDateDine() {
         return dateDine;
-    }
-
-    public void setDateDine(Day dateDine) {
-        this.dateDine = dateDine;
     }
 
     public int getTicketCode() {
@@ -35,15 +33,24 @@ public class Reservation implements Comparable<Reservation> {
         this.ticketCode = ticketCode;
     }
 
+    public void setStatus(RState status) {
+        this.status = status;
+    }
+
     public static String getListingHeader() {
-        return String.format("%-13s%-11s%-14s%-14s%s", "Guest Name", "Phone", "Request Date",
-                "Dining Date", "#Persons");
+        return String.format("%-13s%-11s%-14s%-25s%-11s%s", "Guest Name", "Phone",
+                "Request Date", "Dining Date and Ticket", "#Persons", "Status");
     }
 
     @Override
     public String toString() {
-        return String.format("%-13s%-11s%-14s%-14s%5d", guestName, phoneNumber, dateRequest,
-                dateDine, totPersons);
+        return String.format("%-13s%-11s%-14s%-25s%4d       %s",
+                guestName,
+                phoneNumber,
+                dateRequest,
+                dateDine + String.format(" (Ticket %d)", ticketCode),
+                totPersons,
+                status.getName());
     }
 
     @Override
