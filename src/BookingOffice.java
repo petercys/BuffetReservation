@@ -42,7 +42,8 @@ public class BookingOffice {
      * @return the reservation made
      */
     public Reservation addReservation(String guestName, String phoneNumber, int totPersons,
-                                      String sDateDine) throws ExBookingAlreadyExists, ExDateHasAlreadyPassed {
+                                      String sDateDine)
+            throws ExBookingAlreadyExists, ExDateHasAlreadyPassed {
         Day dateDine = new Day(sDateDine);
         if (dateDine.hasPassed(SystemDate.getInstance().clone()))
             throw new ExDateHasAlreadyPassed();
@@ -75,7 +76,12 @@ public class BookingOffice {
         return r;
     }
 
+    /**
+     * Undo a reservation (not the same as cancel)
+     * @param r the reservation to be undone
+     */
     public void undoReservation(Reservation r) {
+        // We need to revert the ticketCode before removing the reservation from the booking system.
         String sDateDine = r.getDateDine().toString();
         int currentTicketCode = -1;
 
@@ -91,6 +97,11 @@ public class BookingOffice {
     }
 
     public void cancelReservation(Reservation r) {
+        // We don't need to revert the ticketCode here, unlike what "undoReservation" does.
+        // Reason:
+        // For example, even if one cancels his/her booking,
+        // the ticket code that was already given to that booking will not be reused.
+
         removeReservation(r);
     }
 

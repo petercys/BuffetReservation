@@ -15,6 +15,8 @@ public class CmdRequest extends RecordedCommand {
         try {
             totalPersons = Integer.parseInt(cmdParts[3]);
         } catch (NumberFormatException e) {
+            // Just catch it and print an error message here.
+            // Create a new Exception subclass and rethrow it is redundant.
             System.out.println("Wrong number format!");
             return;
         }

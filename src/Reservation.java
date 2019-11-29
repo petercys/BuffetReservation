@@ -23,6 +23,11 @@ public class Reservation implements Comparable<Reservation> {
         this.status = new RStatePending();
     }
 
+    public static String getListingHeader() {
+        return String.format("%-13s%-11s%-14s%-25s%-11s%s", "Guest Name", "Phone",
+                "Request Date", "Dining Date and Ticket", "#Persons", "Status");
+    }
+
     public Day getDateDine() {
         return dateDine;
     }
@@ -37,11 +42,6 @@ public class Reservation implements Comparable<Reservation> {
 
     public void setStatus(RState status) {
         this.status = status;
-    }
-
-    public static String getListingHeader() {
-        return String.format("%-13s%-11s%-14s%-25s%-11s%s", "Guest Name", "Phone",
-                "Request Date", "Dining Date and Ticket", "#Persons", "Status");
     }
 
     @Override
