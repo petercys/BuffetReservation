@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Reservation implements Comparable<Reservation> {
     private String guestName;
     private String phoneNumber;
@@ -53,13 +55,31 @@ public class Reservation implements Comparable<Reservation> {
                 status.getName());
     }
 
+    // The Assignment PDF file stated that 2 reservations having the same "guestName" and "dateDine"
+    // are considered the same
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reservation that = (Reservation) o;
+        return Objects.equals(guestName, that.guestName) &&
+                Objects.equals(dateDine, that.dateDine);
+    }
+
+    // The Assignment PDF file stated that 2 reservations having the same "guestName" and "dateDine"
+    // are considered the same
+    @Override
+    public int hashCode() {
+        return Objects.hash(guestName, dateDine);
+    }
+
     @Override
     public int compareTo(Reservation o) {
-        int c = this.guestName.compareTo(o.guestName);
+        int c = this.guestName.compareTo(o.guestName); // Sort by "guestName" first
         if (c == 0)
-            c = this.phoneNumber.compareTo(o.phoneNumber);
+            c = this.phoneNumber.compareTo(o.phoneNumber); // Then sort by "phoneNumber"
         if (c == 0)
-            c = this.dateDine.compareTo(o.dateDine);
+            c = this.dateDine.compareTo(o.dateDine); // Finally, sort by "dateDine"
 
         return c;
     }
