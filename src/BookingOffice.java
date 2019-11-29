@@ -33,7 +33,7 @@ public class BookingOffice {
     }
 
     /**
-     * Add a reservation to the system
+     * Add a reservation to the booking system
      *
      * @param guestName   name of the guest
      * @param phoneNumber phone number
@@ -60,7 +60,7 @@ public class BookingOffice {
     }
 
     /**
-     * Add a reservation
+     * Add a reservation to the booking system
      *
      * @param r reservation to be added
      */
@@ -100,8 +100,8 @@ public class BookingOffice {
     public void cancelReservation(Reservation r) {
         // We don't need to revert the ticketCode here, unlike what "undoReservation" does.
         // Reason:
-        // For example, even if one cancels his/her booking,
-        // the ticket code that was already given to that booking will not be reused.
+        // "For example, even if one cancels his/her booking,
+        // the ticket code that was already given to that booking will not be reused."
 
         removeReservation(r);
     }
@@ -115,6 +115,12 @@ public class BookingOffice {
         allReservations.remove(r);
     }
 
+    /**
+     * Check if the booking system has the reservation
+     *
+     * @param r reservation
+     * @return true if the booking system has the reservation
+     */
     public boolean hasReservation(Reservation r) {
         return allReservations.contains(r);
     }
