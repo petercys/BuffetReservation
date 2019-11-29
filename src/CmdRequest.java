@@ -2,14 +2,9 @@ public class CmdRequest extends RecordedCommand {
     private Reservation reservation;
 
     @Override
-    public void execute(String[] cmdParts) {
-        // No need to create a new subclass of "Exception".
-        // Also no need to throw an exception.
-        // Just print the error message and return is ok la.
-        if (cmdParts.length < 5) {
-            System.out.println("Insufficient command arguments!");
-            return;
-        }
+    public void execute(String[] cmdParts) throws ExInsufficientArgs {
+        if (cmdParts.length < 5)
+            throw new ExInsufficientArgs();
 
         int totalPersons;
         try {
@@ -21,9 +16,11 @@ public class CmdRequest extends RecordedCommand {
             return;
         }
 
+        String sDateDine = cmdParts[4];
+
         try {
             reservation = BookingOffice.getInstance().addReservation(cmdParts[1], cmdParts[2],
-                    totalPersons, cmdParts[4]);
+                    totalPersons, sDateDine);
         } catch (ExBookingAlreadyExists | ExDateHasAlreadyPassed e) {
             System.out.println(e.getMessage());
             return;
@@ -33,8 +30,7 @@ public class CmdRequest extends RecordedCommand {
         clearRedoList();
 
         System.out.println(String.format("Done. Ticket code for %s: %d\n",
-                cmdParts[4],
-                reservation.getTicketCode()));
+                sDateDine, reservation.getTicketCode()));
     }
 
     @Override

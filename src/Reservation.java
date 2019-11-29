@@ -56,7 +56,7 @@ public class Reservation implements Comparable<Reservation> {
     }
 
     // The Assignment PDF file stated that 2 reservations having the same "guestName" and "dateDine"
-    // are considered the same
+    // are considered the same.
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,7 +67,7 @@ public class Reservation implements Comparable<Reservation> {
     }
 
     // The Assignment PDF file stated that 2 reservations having the same "guestName" and "dateDine"
-    // are considered the same
+    // are considered the same.
     @Override
     public int hashCode() {
         return Objects.hash(guestName, dateDine);

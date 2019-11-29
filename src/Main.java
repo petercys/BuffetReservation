@@ -30,27 +30,34 @@ public class Main {
             System.out.println("\n> " + cmdLine);
 
             String[] cmdParts = cmdLine.split("\\|");
+            if (cmdParts.length <= 0)
+                continue;
+
             String cmd = cmdParts[0];
 
-            switch (cmd) {
-                case "request":
-                    (new CmdRequest()).execute(cmdParts);
-                    break;
-                case "listReservations":
-                    (new CmdListReservations()).execute(cmdParts);
-                    break;
-                case "startNewDay":
-                    (new CmdStartNewDay()).execute(cmdParts);
-                    break;
-                case "undo":
-                    RecordedCommand.undoOneCommand();
-                    break;
-                case "redo":
-                    RecordedCommand.redoOneCommand();
-                    break;
-                default:
-                    System.out.println("Unknown command");
-                    break;
+            try {
+                switch (cmd) {
+                    case "request":
+                        (new CmdRequest()).execute(cmdParts);
+                        break;
+                    case "listReservations":
+                        (new CmdListReservations()).execute(cmdParts);
+                        break;
+                    case "startNewDay":
+                        (new CmdStartNewDay()).execute(cmdParts);
+                        break;
+                    case "undo":
+                        RecordedCommand.undoOneCommand();
+                        break;
+                    case "redo":
+                        RecordedCommand.redoOneCommand();
+                        break;
+                    default:
+                        System.out.println("Unknown command");
+                        break;
+                }
+            } catch (ExInsufficientArgs exInsufficientArgs) {
+                System.out.println(exInsufficientArgs.getMessage());
             }
         }
 

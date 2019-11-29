@@ -65,7 +65,7 @@ public class BookingOffice {
      * @param r reservation to be added
      */
     public Reservation addReservation(Reservation r) throws ExBookingAlreadyExists {
-        if (allReservations.contains(r))
+        if (hasReservation(r))
             throw new ExBookingAlreadyExists();
 
         allReservations.add(r);
