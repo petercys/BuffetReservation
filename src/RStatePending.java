@@ -1,6 +1,6 @@
 public class RStatePending implements RState {
     @Override
-    public String getName() {
+    public String getNameAndDescription() {
         return "Pending";
     }
 }

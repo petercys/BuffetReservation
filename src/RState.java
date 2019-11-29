@@ -1,3 +1,3 @@
 public interface RState {
-    String getName();
+    String getNameAndDescription();
 }

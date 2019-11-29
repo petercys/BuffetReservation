@@ -28,6 +28,10 @@ public class Reservation implements Comparable<Reservation> {
                 "Request Date", "Dining Date and Ticket", "#Persons", "Status");
     }
 
+    public int getTotPersons() {
+        return totPersons;
+    }
+
     public Day getDateDine() {
         return dateDine;
     }
@@ -38,6 +42,10 @@ public class Reservation implements Comparable<Reservation> {
 
     public void setTicketCode(int ticketCode) {
         this.ticketCode = ticketCode;
+    }
+
+    public RState getStatus() {
+        return status;
     }
 
     public void setStatus(RState status) {
@@ -52,7 +60,7 @@ public class Reservation implements Comparable<Reservation> {
                 dateRequest,
                 dateDine + String.format(" (Ticket %d)", ticketCode),
                 totPersons,
-                status.getName());
+                status.getNameAndDescription());
     }
 
     // The Assignment PDF file stated that 2 reservations having the same "guestName" and "dateDine"

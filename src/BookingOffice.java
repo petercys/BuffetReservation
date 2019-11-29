@@ -6,6 +6,7 @@ import java.util.List;
 public class BookingOffice {
     private static volatile BookingOffice mInstance;
     private List<Reservation> allReservations;
+    // One business day should have its corresponding ticket code
     private HashMap<String, Integer> ticketCodeMap; // <Date String, Ticket Code>
 
     private BookingOffice() {
@@ -40,11 +41,15 @@ public class BookingOffice {
      * @param totPersons  total persons for the booking
      * @param sDateDine   dining date
      * @return the reservation made
+     * @throws ExBookingAlreadyExists if the reservation is existed in the system already
+     * @throws ExDateHasAlreadyPassed if the target dining date is passed
      */
     public Reservation addReservation(String guestName, String phoneNumber, int totPersons,
                                       String sDateDine)
             throws ExBookingAlreadyExists, ExDateHasAlreadyPassed {
         Day dateDine = new Day(sDateDine);
+
+        // Check if the target dining date has passed the system date
         if (dateDine.hasPassed(SystemDate.getInstance().clone()))
             throw new ExDateHasAlreadyPassed();
 
@@ -56,33 +61,32 @@ public class BookingOffice {
 
         r.setTicketCode(ticketCode);
 
-        return addReservation(r);
-    }
-
-    /**
-     * Add a reservation to the booking system
-     *
-     * @param r reservation to be added
-     */
-    public Reservation addReservation(Reservation r) throws ExBookingAlreadyExists {
-        if (hasReservation(r))
-            throw new ExBookingAlreadyExists();
-
-        allReservations.add(r);
-        ticketCodeMap.put(r.getDateDine().toString(), r.getTicketCode());
-
-        Collections.sort(allReservations);
+        addReservation(r);
 
         return r;
     }
 
     /**
-     * Undo a reservation (not the same as cancel)
+     * Add a reservation to the booking system
+     */
+    public void addReservation(Reservation r) throws ExBookingAlreadyExists {
+        if (hasReservation(r))
+            throw new ExBookingAlreadyExists();
+
+        allReservations.add(r);
+        // Update the ticket code of the corresponding business day
+        ticketCodeMap.put(r.getDateDine().toString(), r.getTicketCode());
+
+        Collections.sort(allReservations);
+    }
+
+    /**
+     * Undo adding a reservation (not the same as cancel)
      *
      * @param r the reservation to be undone
      */
     public void undoReservation(Reservation r) {
-        // We need to revert the ticketCode before removing the reservation from the booking system.
+        // We need to revert the ticketCode before removing the reservation from the booking system
         String sDateDine = r.getDateDine().toString();
         int currentTicketCode = -1;
 
@@ -109,7 +113,7 @@ public class BookingOffice {
     /**
      * Remove a reservation
      *
-     * @param r reservation to be removed
+     * @param r the reservation to be removed
      */
     public void removeReservation(Reservation r) {
         allReservations.remove(r);
@@ -117,12 +121,50 @@ public class BookingOffice {
 
     /**
      * Check if the booking system has the reservation
+     * (which has the same guestName and dateDine)
      *
-     * @param r reservation
+     * @param r the reservation
      * @return true if the booking system has the reservation
      */
     public boolean hasReservation(Reservation r) {
         return allReservations.contains(r);
+    }
+
+    /**
+     * Search for a reservation in a specific date by ticket code
+     *
+     * @param dateDine   the dateDine of the reservation
+     * @param ticketCode the ticket code of the reservation
+     * @return the reservation, or null if there is no search result
+     */
+    public Reservation searchReservation(String dateDine, int ticketCode) {
+        for (Reservation reservation : allReservations) {
+            if (reservation.getDateDine().toString().equals(dateDine)
+                    && reservation.getTicketCode() == ticketCode) {
+                return reservation;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get all reservations which the status/state is pending
+     *
+     * @param dateDine target dining date of the reservations
+     * @return a list of reservations which the status/state is pending
+     */
+    public List<Reservation> getPendingReservations(String dateDine) {
+        List<Reservation> pendingReservations = new ArrayList<>();
+
+        for (Reservation reservation : allReservations) {
+            if (reservation.getDateDine().toString().equals(dateDine)
+                    && reservation.getStatus() instanceof RStatePending) {
+                pendingReservations.add(reservation);
+            }
+        }
+
+        return pendingReservations;
     }
 
     /**

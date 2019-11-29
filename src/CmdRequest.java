@@ -16,7 +16,7 @@ public class CmdRequest extends RecordedCommand {
             totalPersons = Integer.parseInt(sTotalPersons);
         } catch (NumberFormatException e) {
             // Just catch it and print an error message here.
-            // Create a new Exception subclass and rethrow it is redundant.
+            // Creating a new Exception subclass and rethrow it is redundant.
             System.out.println("Wrong number format!");
             return;
         }
@@ -28,6 +28,9 @@ public class CmdRequest extends RecordedCommand {
             System.out.println(e.getMessage());
             return;
         }
+
+        // Initialize all tables for this date
+        TableManager.getInstance().initAllTablesForDate(sDateDine);
 
         addUndoCommand(this);
         clearRedoList();

@@ -4,9 +4,6 @@ public class CmdStartNewDay extends RecordedCommand {
 
     @Override
     public void execute(String[] cmdParts) throws ExInsufficientArgs {
-        // No need to create a new subclass of "Exception".
-        // Also no need to throw an exception.
-        // Just print the error message and return is ok la.
         if (cmdParts.length < 2)
             throw new ExInsufficientArgs();
 

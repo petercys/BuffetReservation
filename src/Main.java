@@ -40,8 +40,14 @@ public class Main {
                     case "request":
                         (new CmdRequest()).execute(cmdParts);
                         break;
+                    case "assignTable":
+                        (new CmdAssignTable()).execute(cmdParts);
+                        break;
                     case "listReservations":
                         (new CmdListReservations()).execute(cmdParts);
+                        break;
+                    case "listTableAllocations":
+                        (new CmdListTableAllocations()).execute(cmdParts);
                         break;
                     case "startNewDay":
                         (new CmdStartNewDay()).execute(cmdParts);
@@ -56,8 +62,8 @@ public class Main {
                         System.out.println("Unknown command");
                         break;
                 }
-            } catch (ExInsufficientArgs exInsufficientArgs) {
-                System.out.println(exInsufficientArgs.getMessage());
+            } catch (Exception e) { // Catch all exceptions and print their message
+                System.out.println(e.getMessage());
             }
         }
 

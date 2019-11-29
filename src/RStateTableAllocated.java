@@ -1,6 +1,20 @@
+import java.util.List;
+
 public class RStateTableAllocated implements RState {
+    private List<Table> allocatedTables;
+
+    public RStateTableAllocated(List<Table> allocatedTables) {
+        this.allocatedTables = allocatedTables;
+    }
+
     @Override
-    public String getName() {
-        return null; // To be implemented in later phrases
+    public String getNameAndDescription() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Table assigned: ");
+
+        for (Table table : allocatedTables)
+            stringBuilder.append(table.getCode()).append(" ");
+
+        return stringBuilder.toString();
     }
 }
