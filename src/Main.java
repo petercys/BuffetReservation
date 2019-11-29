@@ -23,7 +23,7 @@ public class Main {
         while (inFile.hasNext()) {
             String cmdLine = inFile.nextLine().trim();
 
-            //Blank lines exist in data file as separators.  Skip them.
+            // Blank lines exist in data file as separators.  Skip them.
             if (cmdLine.trim().isEmpty())
                 continue;
 
@@ -49,7 +49,7 @@ public class Main {
                     RecordedCommand.redoOneCommand();
                     break;
                 default:
-                    // Do nothing
+                    System.out.println("Unknown command");
                     break;
             }
         }
