@@ -3,7 +3,6 @@ public class CmdRequest extends RecordedCommand {
 
     @Override
     public void execute(String[] cmdParts) {
-        int totalPersons = Integer.parseInt(cmdParts[3]);
         // No need to create a new subclass of "Exception".
         // Also no need to throw an exception.
         // Just print the error message and return is ok la.
@@ -12,8 +11,21 @@ public class CmdRequest extends RecordedCommand {
             return;
         }
 
-        reservation = BookingOffice.getInstance().addReservation(cmdParts[1], cmdParts[2],
-                totalPersons, cmdParts[4]);
+        int totalPersons;
+        try {
+            totalPersons = Integer.parseInt(cmdParts[3]);
+        } catch (NumberFormatException e) {
+            System.out.println("Wrong number format!");
+            return;
+        }
+
+        try {
+            reservation = BookingOffice.getInstance().addReservation(cmdParts[1], cmdParts[2],
+                    totalPersons, cmdParts[4]);
+        } catch (ExBookingAlreadyExists | ExDateHasAlreadyPassed e) {
+            System.out.println(e.getMessage());
+            return;
+        }
 
         addUndoCommand(this);
         clearRedoList();
@@ -25,13 +37,19 @@ public class CmdRequest extends RecordedCommand {
 
     @Override
     public void undoMe() {
-        BookingOffice.getInstance().removeReservation(reservation);
+        BookingOffice.getInstance().undoReservation(reservation);
         addRedoCommand(this);
     }
 
     @Override
     public void redoMe() {
-        BookingOffice.getInstance().addReservation(reservation);
+        try {
+            BookingOffice.getInstance().addReservation(reservation);
+        } catch (ExBookingAlreadyExists e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+
         addUndoCommand(this);
     }
 }

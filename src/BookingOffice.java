@@ -42,8 +42,12 @@ public class BookingOffice {
      * @return the reservation made
      */
     public Reservation addReservation(String guestName, String phoneNumber, int totPersons,
-                                      String sDateDine) {
-        Reservation r = new Reservation(guestName, phoneNumber, totPersons, sDateDine);
+                                      String sDateDine) throws ExBookingAlreadyExists, ExDateHasAlreadyPassed {
+        Day dateDine = new Day(sDateDine);
+        if (dateDine.hasPassed(SystemDate.getInstance().clone()))
+            throw new ExDateHasAlreadyPassed();
+
+        Reservation r = new Reservation(guestName, phoneNumber, totPersons, dateDine);
 
         int ticketCode = 1;
         if (ticketCodeMap.containsKey(sDateDine))
@@ -59,7 +63,10 @@ public class BookingOffice {
      *
      * @param r reservation to be added
      */
-    public Reservation addReservation(Reservation r) {
+    public Reservation addReservation(Reservation r) throws ExBookingAlreadyExists {
+        if (allReservations.contains(r))
+            throw new ExBookingAlreadyExists();
+
         allReservations.add(r);
         ticketCodeMap.put(r.getDateDine().toString(), r.getTicketCode());
 
@@ -68,14 +75,7 @@ public class BookingOffice {
         return r;
     }
 
-    /**
-     * Remove a reservation
-     *
-     * @param r reservation to be removed
-     */
-    public void removeReservation(Reservation r) {
-        allReservations.remove(r);
-
+    public void undoReservation(Reservation r) {
         String sDateDine = r.getDateDine().toString();
         int currentTicketCode = -1;
 
@@ -86,6 +86,25 @@ public class BookingOffice {
             ticketCodeMap.remove(sDateDine);
         else
             ticketCodeMap.put(sDateDine, currentTicketCode - 1);
+
+        removeReservation(r);
+    }
+
+    public void cancelReservation(Reservation r) {
+        removeReservation(r);
+    }
+
+    /**
+     * Remove a reservation
+     *
+     * @param r reservation to be removed
+     */
+    public void removeReservation(Reservation r) {
+        allReservations.remove(r);
+    }
+
+    public boolean hasReservation(Reservation r) {
+        return allReservations.contains(r);
     }
 
     /**
