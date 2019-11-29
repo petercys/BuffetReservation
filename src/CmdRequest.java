@@ -4,6 +4,13 @@ public class CmdRequest extends RecordedCommand {
     @Override
     public void execute(String[] cmdParts) {
         int totalPersons = Integer.parseInt(cmdParts[3]);
+        // No need to create a new subclass of "Exception".
+        // Also no need to throw an exception.
+        // Just print the error message and return is ok la.
+        if (cmdParts.length < 5) {
+            System.out.println("Insufficient command arguments!");
+            return;
+        }
 
         reservation = BookingOffice.getInstance().addReservation(cmdParts[1], cmdParts[2],
                 totalPersons, cmdParts[4]);
