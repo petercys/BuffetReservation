@@ -21,6 +21,14 @@ public class Table {
         return capacity;
     }
 
+    public char getCodeInitial() {
+        return codeInitial;
+    }
+
+    public int getCodeNum() {
+        return codeNum;
+    }
+
     public boolean isAssigned() {
         return isAssigned;
     }
@@ -61,5 +69,17 @@ public class Table {
     @Override
     public int hashCode() {
         return Objects.hash(tableDate, capacity, codeInitial, codeNum);
+    }
+
+    @Override
+    public String toString() {
+        return "Table{" +
+                "tableDate='" + tableDate + '\'' +
+                ", capacity=" + capacity +
+                ", codeInitial=" + codeInitial +
+                ", codeNum=" + codeNum +
+                ", isAssigned=" + isAssigned +
+                ", ticketCode=" + ticketCode +
+                '}';
     }
 }

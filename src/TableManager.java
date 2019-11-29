@@ -51,6 +51,7 @@ public class TableManager {
         for (int i = 0; i < 6; i++)
             tables.add(new Table(tableDate, 4, 'F', i + 1));
 
+        // 3 tables for 8 persons
         for (int i = 0; i < 3; i++)
             tables.add(new Table(tableDate, 8, 'H', i + 1));
 
@@ -111,7 +112,7 @@ public class TableManager {
                     int c = Integer.compare(o1.getCapacity(), o2.getCapacity());
 
                     if (c == 0)
-                        c = o1.getCode().compareTo(o2.getCode());
+                        c = Integer.compare(o1.getCodeNum(), o2.getCodeNum());
 
                     return c;
                 }
