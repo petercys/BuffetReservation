@@ -78,6 +78,7 @@ public class BookingOffice {
 
     /**
      * Undo a reservation (not the same as cancel)
+     *
      * @param r the reservation to be undone
      */
     public void undoReservation(Reservation r) {
