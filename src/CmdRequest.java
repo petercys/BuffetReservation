@@ -20,7 +20,7 @@ public class CmdRequest extends RecordedCommand {
             System.out.println("Wrong number format!");
             return;
         }
-        
+
         try {
             reservation = BookingOffice.getInstance().addReservation(sGuestName, sPhoneNumber,
                     totalPersons, sDateDine);

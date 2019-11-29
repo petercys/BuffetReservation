@@ -79,7 +79,7 @@ public class Reservation implements Comparable<Reservation> {
         if (c == 0)
             c = this.phoneNumber.compareTo(o.phoneNumber); // Then sort by "phoneNumber"
         if (c == 0)
-            c = this.dateDine.compareTo(o.dateDine); // Finally, sort by "dateDine"
+            c = this.dateDine.compareTo(o.dateDine); // Then sort by "dateDine"
 
         return c;
     }
