@@ -83,16 +83,6 @@ public class BookingOffice {
     }
 
     /**
-     * Undo cancelling reservation (without updating ticket code and sorting the list)
-     *
-     * @param r the reservation
-     */
-    public void undoCancellingReservation(Reservation r) {
-        if (!hasReservation(r))
-            allReservations.add(r);
-    }
-
-    /**
      * Undo adding a reservation (not the same as cancel)
      *
      * @param r the reservation to be undone
@@ -120,6 +110,18 @@ public class BookingOffice {
         // the ticket code that was already given to that booking will not be reused."
 
         removeReservation(r);
+    }
+
+    /**
+     * Undo cancelling reservation (without updating ticket code)
+     *
+     * @param r the reservation
+     */
+    public void undoCancellingReservation(Reservation r) {
+        if (!hasReservation(r))
+            allReservations.add(r);
+
+        Collections.sort(allReservations);
     }
 
     /**
