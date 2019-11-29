@@ -40,6 +40,9 @@ public class Main {
                     case "request":
                         (new CmdRequest()).execute(cmdParts);
                         break;
+                    case "cancel":
+                        (new CmdCancel()).execute(cmdParts);
+                        break;
                     case "assignTable":
                         (new CmdAssignTable()).execute(cmdParts);
                         break;

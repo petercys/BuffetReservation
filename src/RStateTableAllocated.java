@@ -7,6 +7,10 @@ public class RStateTableAllocated implements RState {
         this.allocatedTables = allocatedTables;
     }
 
+    public List<Table> getAllocatedTables() {
+        return allocatedTables;
+    }
+
     @Override
     public String getNameAndDescription() {
         StringBuilder stringBuilder = new StringBuilder();

@@ -68,6 +68,8 @@ public class BookingOffice {
 
     /**
      * Add a reservation to the booking system
+     *
+     * @param r the reservation
      */
     public void addReservation(Reservation r) throws ExBookingAlreadyExists {
         if (hasReservation(r))
@@ -78,6 +80,16 @@ public class BookingOffice {
         ticketCodeMap.put(r.getDateDine().toString(), r.getTicketCode());
 
         Collections.sort(allReservations);
+    }
+
+    /**
+     * Undo cancelling reservation (without updating ticket code and sorting the list)
+     *
+     * @param r the reservation
+     */
+    public void undoCancellingReservation(Reservation r) {
+        if (!hasReservation(r))
+            allReservations.add(r);
     }
 
     /**

@@ -10,7 +10,7 @@ public class CmdRequest extends RecordedCommand {
         String sPhoneNumber = cmdParts[2];
         String sTotalPersons = cmdParts[3];
         String sDateDine = cmdParts[4];
-        
+
         int totalPersons;
         try {
             totalPersons = Integer.parseInt(sTotalPersons);
