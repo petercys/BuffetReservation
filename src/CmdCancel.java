@@ -30,11 +30,11 @@ public class CmdCancel extends RecordedCommand {
         if (reservation == null)
             throw new ExBookingNotFound();
 
-        // Release the tables
         RState status = reservation.getStatus();
         if (status instanceof RStateTableAllocated)
             tablesAllocated = ((RStateTableAllocated) status).getAllocatedTables();
 
+        // Release the tables
         if (tablesAllocated != null) {
             for (Table table : tablesAllocated) {
                 table.setAssigned(false);
@@ -54,6 +54,7 @@ public class CmdCancel extends RecordedCommand {
     public void undoMe() {
         BookingOffice.getInstance().undoCancellingReservation(reservation);
 
+        // Re-assign the tables
         if (tablesAllocated != null) {
             for (Table table : tablesAllocated) {
                 table.setAssigned(true);
@@ -66,6 +67,7 @@ public class CmdCancel extends RecordedCommand {
 
     @Override
     public void redoMe() {
+        // Release the tables
         if (tablesAllocated != null) {
             for (Table table : tablesAllocated) {
                 table.setAssigned(false);
