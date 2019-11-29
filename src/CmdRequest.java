@@ -6,20 +6,23 @@ public class CmdRequest extends RecordedCommand {
         if (cmdParts.length < 5)
             throw new ExInsufficientArgs();
 
+        String sGuestName = cmdParts[1];
+        String sPhoneNumber = cmdParts[2];
+        String sTotalPersons = cmdParts[3];
+        String sDateDine = cmdParts[4];
+
         int totalPersons;
         try {
-            totalPersons = Integer.parseInt(cmdParts[3]);
+            totalPersons = Integer.parseInt(sTotalPersons);
         } catch (NumberFormatException e) {
             // Just catch it and print an error message here.
             // Create a new Exception subclass and rethrow it is redundant.
             System.out.println("Wrong number format!");
             return;
         }
-
-        String sDateDine = cmdParts[4];
-
+        
         try {
-            reservation = BookingOffice.getInstance().addReservation(cmdParts[1], cmdParts[2],
+            reservation = BookingOffice.getInstance().addReservation(sGuestName, sPhoneNumber,
                     totalPersons, sDateDine);
         } catch (ExBookingAlreadyExists | ExDateHasAlreadyPassed e) {
             System.out.println(e.getMessage());
