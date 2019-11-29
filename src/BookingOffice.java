@@ -6,7 +6,7 @@ import java.util.List;
 public class BookingOffice {
     private static volatile BookingOffice mInstance;
     private List<Reservation> allReservations;
-    private HashMap<String, Integer> ticketCodeMap;
+    private HashMap<String, Integer> ticketCodeMap; // <Date String, Ticket Code>
 
     private BookingOffice() {
         allReservations = new ArrayList<>();
