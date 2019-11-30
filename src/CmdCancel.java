@@ -36,10 +36,8 @@ public class CmdCancel extends RecordedCommand {
 
         // Release the tables
         if (tablesAllocated != null) {
-            for (Table table : tablesAllocated) {
-                table.setAssigned(false);
-                table.setTicketCode(-1);
-            }
+            for (Table table : tablesAllocated)
+                table.release();
         }
 
         BookingOffice.getInstance().cancelReservation(reservation);
@@ -69,10 +67,8 @@ public class CmdCancel extends RecordedCommand {
     public void redoMe() {
         // Release the tables
         if (tablesAllocated != null) {
-            for (Table table : tablesAllocated) {
-                table.setAssigned(false);
-                table.setTicketCode(-1);
-            }
+            for (Table table : tablesAllocated)
+                table.release();
         }
 
         BookingOffice.getInstance().cancelReservation(reservation);

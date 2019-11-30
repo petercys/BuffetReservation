@@ -16,8 +16,12 @@ public class RStateTableAllocated implements RState {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Table assigned: ");
 
-        for (Table table : allocatedTables)
-            stringBuilder.append(table.getCode()).append(" ");
+        if (allocatedTables == null) {
+            stringBuilder.append("[None]");
+        } else {
+            for (Table table : allocatedTables)
+                stringBuilder.append(table.getCode()).append(" ");
+        }
 
         return stringBuilder.toString();
     }

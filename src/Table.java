@@ -21,10 +21,6 @@ public class Table {
         return capacity;
     }
 
-    public char getCodeInitial() {
-        return codeInitial;
-    }
-
     public int getCodeNum() {
         return codeNum;
     }
@@ -53,6 +49,14 @@ public class Table {
      */
     public String getCode() {
         return codeInitial + String.format("%02d", codeNum);
+    }
+
+    /**
+     * Make the table available and reset its ticketCode
+     */
+    public void release() {
+        this.isAssigned = false;
+        this.ticketCode = -1;
     }
 
     @Override

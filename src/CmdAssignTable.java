@@ -77,10 +77,8 @@ public class CmdAssignTable extends RecordedCommand {
     @Override
     public void undoMe() {
         // Remove table assignments
-        for (Table table : foundTables) {
-            table.setAssigned(false);
-            table.setTicketCode(-1);
-        }
+        for (Table table : foundTables)
+            table.release();
 
         reservation.setStatus(new RStatePending());
 
