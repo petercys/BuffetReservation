@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -149,6 +148,12 @@ public class CmdSuggestTable implements Command {
         System.out.println(String.format("Suggestion for %d persons: %s", totalPersons, stringBuilder.toString()));
     }
 
+    /**
+     * Get all available tables in the specific date
+     *
+     * @param date the date
+     * @return all available tables
+     */
     private List<Table> getAllAvailableTablesForDate(String date) {
         List<Table> availableTables = new ArrayList<>();
         List<Table> allTablesForDate = TableManager.getInstance().getAllTablesForDate(date);
