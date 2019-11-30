@@ -72,7 +72,7 @@ public class TableManager {
      * Find a table with table code on the target dining date
      *
      * @param dateString the target dining date
-     * @param code the table code
+     * @param code       the table code
      * @return the table found, null if no table is found
      */
     public Table findTable(String dateString, String code) {
@@ -106,6 +106,7 @@ public class TableManager {
 
             // (iii) For listing of table allocations, the allocated tables and available tables should
             // be sorted by table size, and then by table code.
+            // [Can be replaced with lambda]
             Comparator<Table> sizeThenCodeTableComparator = new Comparator<Table>() {
                 @Override
                 public int compare(Table o1, Table o2) {

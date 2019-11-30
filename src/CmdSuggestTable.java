@@ -26,7 +26,8 @@ public class CmdSuggestTable implements Command {
             return;
         }
 
-        Reservation reservation = BookingOffice.getInstance().searchReservation(sDateDine, ticketCode);
+        Reservation reservation =
+                BookingOffice.getInstance().searchReservation(sDateDine, ticketCode);
         if (reservation == null)
             throw new ExBookingNotFound();
 
@@ -34,25 +35,13 @@ public class CmdSuggestTable implements Command {
         if (status instanceof RStateTableAllocated)
             throw new ExAssignedTableAlready();
 
-        int totalPersons = reservation.getTotPersons();
-
         List<Table> suggestedTables = new ArrayList<>();
         List<Table> tablesForEight = new ArrayList<>();
         List<Table> tablesForFour = new ArrayList<>();
         List<Table> tablesForTwo = new ArrayList<>();
         List<Table> availableTables = getAllAvailableTablesForDate(sDateDine);
-        availableTables.sort(new Comparator<Table>() {
-            @Override
-            public int compare(Table o1, Table o2) {
-                int c = Integer.compare(o1.getCapacity(), o2.getCapacity());
 
-                if (c == 0)
-                    c = Integer.compare(o1.getCodeNum(), o2.getCodeNum());
-
-                return c;
-            }
-        });
-
+        int totalPersons = reservation.getTotPersons();
         int totalSeatsAvailable = 0;
         for (Table availableTable : availableTables)
             totalSeatsAvailable += availableTable.getCapacity();
@@ -82,13 +71,14 @@ public class CmdSuggestTable implements Command {
         if (!availableTables.isEmpty()) {
             int remainingPersons = totalPersons;
 
+            // Make it an even number
             if (remainingPersons % 2 != 0)
                 remainingPersons++;
 
+            // Allocate the biggest tables possible first
             if (remainingPersons >= 8) {
                 int x = remainingPersons / 8;
                 int tableForEightNeeded = Math.min(x, tablesForEight.size());
-                //System.out.println("tableForEightNeeded = " + tableForEightNeeded);
 
                 for (int i = 0; i < tableForEightNeeded; i++)
                     suggestedTables.add(tablesForEight.get(i));
@@ -96,11 +86,10 @@ public class CmdSuggestTable implements Command {
                 remainingPersons -= tableForEightNeeded * 8;
             }
 
-
+            // Then allocate the second biggest tables possible
             if (remainingPersons >= 4) {
                 int x = remainingPersons / 4;
                 int tableForFourNeeded = Math.min(x, tablesForFour.size());
-                //System.out.println("tableForFourNeeded = " + tableForFourNeeded);
 
                 for (int i = 0; i < tableForFourNeeded; i++)
                     suggestedTables.add(tablesForFour.get(i));
@@ -108,18 +97,19 @@ public class CmdSuggestTable implements Command {
                 remainingPersons -= tableForFourNeeded * 4;
             }
 
+            // Then allocate the smallest tables possible
             if (remainingPersons >= 2) {
                 int x = remainingPersons / 2;
                 int tableForTwoNeeded = Math.min(x, tablesForTwo.size());
-                //System.out.println("tableForTwoNeeded = " + tableForTwoNeeded);
 
                 for (int i = 0; i < tableForTwoNeeded; i++)
                     suggestedTables.add(tablesForTwo.get(i));
 
-                remainingPersons -= tableForTwoNeeded * 2;
+                //remainingPersons -= tableForTwoNeeded * 2;
             }
         }
 
+        // [Can be replaced with lambda]
         suggestedTables.sort(new Comparator<Table>() {
             @Override
             public int compare(Table o1, Table o2) {
@@ -137,15 +127,16 @@ public class CmdSuggestTable implements Command {
             }
         });
 
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder outputStrBuilder = new StringBuilder();
         if (suggestedTables.isEmpty()) {
-            stringBuilder.append("[None]");
+            outputStrBuilder.append("[None]");
         } else {
             for (Table t : suggestedTables)
-                stringBuilder.append(t.getCode()).append(" ");
+                outputStrBuilder.append(t.getCode()).append(" ");
         }
 
-        System.out.println(String.format("Suggestion for %d persons: %s", totalPersons, stringBuilder.toString()));
+        System.out.println(String.format("Suggestion for %d persons: %s",
+                totalPersons, outputStrBuilder.toString()));
     }
 
     /**

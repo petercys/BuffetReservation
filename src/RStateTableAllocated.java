@@ -13,16 +13,16 @@ public class RStateTableAllocated implements RState {
 
     @Override
     public String getNameAndDescription() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Table assigned: ");
+        StringBuilder outputStrBuilder = new StringBuilder();
+        outputStrBuilder.append("Table assigned: ");
 
         if (allocatedTables == null) {
-            stringBuilder.append("[None]");
+            outputStrBuilder.append("[None]");
         } else {
             for (Table table : allocatedTables)
-                stringBuilder.append(table.getCode()).append(" ");
+                outputStrBuilder.append(table.getCode()).append(" ");
         }
 
-        return stringBuilder.toString();
+        return outputStrBuilder.toString();
     }
 }
