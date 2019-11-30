@@ -46,6 +46,9 @@ public class Main {
                     case "assignTable":
                         (new CmdAssignTable()).execute(cmdParts);
                         break;
+                    case "suggestTable":
+                        (new CmdSuggestTable()).execute(cmdParts);
+                        break;
                     case "listReservations":
                         (new CmdListReservations()).execute(cmdParts);
                         break;
